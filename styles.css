@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css?family=Archivo+Narrow");
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Archivo Narrow";
+  background-color: #191a14;
+  height: 90vh;
+}
+
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.legend-sub-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legend-name {
+  color: white;
+}
+
+.legend-color {
+  width: 30px;
+  height: 20px;
+  margin-left: 16px;
+}
+
+.pop {
+  background-color: #9835fb;
+}
+
+.ia {
+  background-color: #04d2ff;
+}
+
+.hi {
+  background-color: #583dff;
+}
+
+.hdi {
+  background-color: #f300ea;
+}

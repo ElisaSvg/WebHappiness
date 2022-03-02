@@ -1,0 +1,56 @@
+{
+  "Africa": [
+    {
+      "id": "0",
+      "users": 283123818,
+      "citizens": 283123818,
+      "access": 25,
+      "happiness": 42
+    }
+  ],
+  "Asia": [
+    {
+      "id": "1",
+      "users": 1891964427,
+      "citizens": 4436856820,
+      "access": 42,
+      "happiness": 60
+    }
+  ],
+  "Europe": [
+    {
+      "id": "2",
+      "users": 509315305,
+      "citizens": 682274920,
+      "access": 74,
+      "happiness": 60
+    }
+  ],
+  "NorthAmerica": [
+    {
+      "id": "3",
+      "users": 375823374,
+      "citizens": 544781340,
+      "access": 68,
+      "happiness": 58
+    }
+  ],
+  "Oceania": [
+    {
+      "id": "4",
+      "users": 25411773,
+      "citizens": 28904910,
+      "access": 87,
+      "happiness": 72
+    }
+  ],
+  "SouthAmerica": [
+    {
+      "id": "5",
+      "users": 259602971,
+      "citizens": 424952290,
+      "access": 61,
+      "happiness": 62
+    }
+  ]
+}

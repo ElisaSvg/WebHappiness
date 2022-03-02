@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Gurul</title>
+</head>
+
+<body>
+  <!-- Resources -->
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/flow.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+  <!-- Chart code -->
+  <script>
+    am5.ready(function () {
+
+      // Create root element
+      // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+      var root = am5.Root.new("chartdiv");
+
+      // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+      root.setThemes([am5themes_Animated.new(root)]);
+
+      // Create series
+      // https://www.amcharts.com/docs/v5/charts/flow-charts/
+      var series = root.container.children.push(
+        am5flow.Sankey.new(root, {
+          sourceIdField: "from",
+          targetIdField: "to",
+          valueField: "value",
+          paddingRight: 50,
+          idField: "id"
+        })
+      );
+
+      series.nodes.setAll({
+        nameField: "name"
+      });
+
+      series.nodes.rectangles.template.set("templateField", "nodeSettings");
+      series.links.template.set("templateField", "linkSettings");
+      series.nodes.labels.template.set("templateField", "nodeSettings");
+
+
+      series.links.template.setAll({
+        tooltipText: "{sourceId} - {targetId} : {test}"
+      });
+
+      // highlight all links with the same id beginning
+      series.links.template.events.on("pointerover", function (event) {
+        var dataItem = event.target.dataItem;
+        var id = dataItem.get("id").split("-")[0];
+
+        am5.array.each(series.dataItems, function (dataItem) {
+          if (dataItem.get("id").indexOf(id) != -1) {
+            dataItem.get("link").hover();
+          }
+        });
+      });
+
+      series.links.template.events.on("pointerout", function (event) {
+        am5.array.each(series.dataItems, function (dataItem) {
+          dataItem.get("link").unhover();
+        });
+      });
+
+      series.nodes.labels.template.setAll({
+        fontSize: 24,
+        fill: am5.color(0xFFFFFF),
+        maxWidth: 150,
+        wrap: true
+      });
+
+      // series.nodes.labels.setAll([
+      //   { id: "Afrique", name: "Afrique", x: am5.percent(50), centerX: am5.percent(50), y: am5.percent(0), centerY: am5.percent(0) },
+      //   { id: "Asie", name: "Asie", x: am5.percent(50), centerX: am5.percent(50), y: am5.percent(0), centerY: am5.percent(0) },
+      //   { id: "Europe", name: "Europe", x: am5.percent(50), centerX: am5.percent(50), y: am5.percent(0), centerY: am5.percent(0) },
+      //   { id: "Amérique du Nord", name: "Amérique du Nord", x: am5.percent(50), centerX: am5.percent(50), y: am5.percent(0), centerY: am5.percent(0) },
+      //   { id: "Oceanie", name: "Oceanie", x: am5.percent(50), centerX: am5.percent(50), y: am5.percent(0), centerY: am5.percent(0) },
+      //   { id: "Amérique du Sud", name: "Amérique du Sud", x: am5.percent(50), centerX: am5.percent(50), y: am5.percent(0), centerY: am5.percent(0) },
+      //   { id: "Population", name: "Population", x: am5.percent(0), centerX: am5.percent(0), y: am5.percent(0), centerY: am5.percent(0) },
+      //   { id: "Percent Access", name: "Percent Access", x: am5.percent(0), centerX: am5.percent(0), y: am5.percent(0), centerY: am5.percent(0) },
+      //   { id: "Happiness Score", name: "Happiness Score", x: am5.percent(0), centerX: am5.percent(0), y: am5.percent(0), centerY: am5.percent(0) },
+      // ]);
+
+      series.nodes.data.setAll([
+        { id: "Afrique", name: "Afrique", fill: am5.color(0x760FF8) },
+        { id: "Asie", name: "Asie", fill: am5.color(0xAD0FF8) },
+        { id: "Europe", name: "Europe", fill: am5.color(0xCC007F) },
+        { id: "Amérique du Nord", name: "Amérique du Nord", fill: am5.color(0xAF009D) },
+        { id: "Oceanie", name: "Oceanie", fill: am5.color(0x6903A4) },
+        { id: "Amérique du Sud", name: "Amérique du Sud", fill: am5.color(0x0D00A4) },
+        { id: "Pop", name: "Pop.", fill: am5.color(0x9835FB) },
+        { id: "IA", name: "IA", fill: am5.color(0x04D2FF) },
+        { id: "HI", name: "HI", fill: am5.color(0x583DFF) },
+        { id: "HDI", name: "HDI", fill: am5.color(0xF300EA) },
+      ])
+
+      // Set data
+      // https://www.amcharts.com/docs/v5/charts/flow-charts/#Setting_data
+      series.data.setAll([
+        { from: "Afrique", to: "Pop", value: 1, test: 1125859590, id: "A0-0", linkSettings: { fillOpacity: 0.6, fillStyle: "target" } },
+        { from: "Afrique", to: "IA", value: 1, test: `25%`, id: "A1-0", linkSettings: { fillOpacity: 0.25, fillStyle: "target" } },
+        { from: "Afrique", to: "HI", value: 1, test: `42%`, id: "A2-0", linkSettings: { fillOpacity: 0.42, fillStyle: "target" } },
+        { from: "Afrique", to: "HDI", value: 1, test: 0.52, id: "A2-0", linkSettings: { fillOpacity: 0.52, fillStyle: "target" } },
+
+        { from: "Asie", to: "Pop", value: 1, test: 4436856820, id: "A0-0", linkSettings: { fillOpacity: 1, fillStyle: "target" } },
+        { from: "Asie", to: "IA", value: 1, test: `42%`, id: "A1-0", linkSettings: { fillOpacity: 0.42, fillStyle: "target" } },
+        { from: "Asie", to: "HI", value: 1, test: `53%`, id: "A2-0", linkSettings: { fillOpacity: 0.6, fillStyle: "target" } },
+        { from: "Asie", to: "HDI", value: 1, test: 0.68, id: "A2-0", linkSettings: { fillOpacity: 0.68, fillStyle: "target" } },
+
+        { from: "Europe", to: "Pop", value: 1, test: 682274920, id: "A0-0", linkSettings: { fillOpacity: 0.4, fillStyle: "target" } },
+        { from: "Europe", to: "IA", value: 1, test: `74%`, id: "A1-0", linkSettings: { fillOpacity: 0.74, fillStyle: "target" } },
+        { from: "Europe", to: "HI", value: 1, test: `60%`, id: "A2-0", linkSettings: { fillOpacity: 0.60, fillStyle: "target" } },
+        { from: "Europe", to: "HDI", value: 1, test: 0.77, id: "A2-0", linkSettings: { fillOpacity: 0.77, fillStyle: "target" } },
+
+        { from: "Amérique du Nord", to: "Pop", value: 1, test: 544781340, id: "A0-0", linkSettings: { fillOpacity: 0.3, fillStyle: "target" } },
+        { from: "Amérique du Nord", to: "IA", value: 1, test: `68%`, id: "A1-0", linkSettings: { fillOpacity: 0.68, fillStyle: "target" } },
+        { from: "Amérique du Nord", to: "HI", value: 1, test: `59%`, id: "A2-0", linkSettings: { fillOpacity: 0.58, fillStyle: "target" } },
+        { from: "Amérique du Nord", to: "HDI", value: 1, test: 0.78, id: "A2-0", linkSettings: { fillOpacity: 0.78, fillStyle: "target" } },
+
+        { from: "Oceanie", to: "Pop", value: 1, id: "A0-0", test: 28904910, linkSettings: { fillOpacity: 0.10, fillStyle: "target" } },
+        { from: "Oceanie", to: "IA", value: 1, id: "A1-0", test: `87%`, linkSettings: { fillOpacity: 0.87, fillStyle: "target" } },
+        { from: "Oceanie", to: "HI", value: 1, id: "A2-0", test: `73%`, linkSettings: { fillOpacity: 0.72, fillStyle: "target" } },
+        { from: "Oceanie", to: "HDI", value: 1, id: "A2-0", test: 0.71, linkSettings: { fillOpacity: 0.71, fillStyle: "target" } },
+
+        { from: "Amérique du Sud", to: "Pop", value: 1, test: 424952290, id: "A0-0", linkSettings: { fillOpacity: 0.3, fillStyle: "target" } },
+        { from: "Amérique du Sud", to: "IA", value: 1, test: `61%`, id: "A1-0", linkSettings: { fillOpacity: 0.61, fillStyle: "target" } },
+        { from: "Amérique du Sud", to: "HI", value: 1, test: `62%`, id: "A2-0", linkSettings: { fillOpacity: 0.61, fillStyle: "target" } },
+        { from: "Amérique du Sud", to: "HDI", value: 1, test: 0.75, id: "A2-0", linkSettings: { fillOpacity: 0.75, fillStyle: "target" } },
+      ]);
+
+      // Make stuff animate on load
+      series.appear(1000, 100);
+
+    }); // end am5.ready()
+  </script>
+
+  <!-- HTML -->
+  <div id="chartdiv"></div>
+  <div class="legend">
+    <div class="legend-sub-container">
+      <p class="legend-name">Population</p>
+      <div class="legend-color pop"></div>
+    </div>
+    <div class="legend-sub-container">
+      <p class="legend-name">Internet Access</p>
+      <div class="legend-color ia"></div>
+    </div>
+    <div class="legend-sub-container">
+      <p class="legend-name">Happiness Indicator</p>
+      <div class="legend-color hi"></div>
+    </div>
+    <div class="legend-sub-container">
+      <p class="legend-name">Human Development Indicator</p>
+      <div class="legend-color hdi"></div>
+    </div>
+  </div>
+</body>
+
+</html>
